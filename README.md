@@ -1,5 +1,8 @@
 # Opencensus.Absinthe
 
+[![CircleCI](https://circleci.com/gh/opencensus-beam/opencensus_absinthe.svg?style=svg)](https://circleci.com/gh/opencensus-beam/opencensus_absinthe)
+[![Hex version badge](https://img.shields.io/hexpm/v/opencensus_absinthe.svg)](https://hex.pm/packages/opencensus_absinthe)
+
 Extends [Absinthe] to automatically create [OpenCensus] spans. Designed to
 work with whatever is producing spans upstream, e.g. [Opencensus.Plug].
 

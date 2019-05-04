@@ -10,9 +10,17 @@ defmodule OpencensusAbsinthe.MixProject do
       description: @description,
       dialyzer: dialyzer(),
       docs: docs(),
-      elixir: "~> 1.8",
+      elixir: "~> 1.5",
       package: package(),
-      preferred_cli_env: [coveralls: :test],
+      preferred_cli_env: [
+        coveralls: :test,
+        "coveralls.html": :test,
+        "coveralls.json": :test,
+        docs: :docs,
+        inch: :docs,
+        "inch.report": :docs,
+        "inchci.add": :docs
+      ],
       start_permanent: Mix.env() == :prod,
       test_coverage: [tool: ExCoveralls],
       version: "0.1.0"
@@ -43,8 +51,9 @@ defmodule OpencensusAbsinthe.MixProject do
       {:absinthe, "~> 1.4.0"},
       {:credo, "~> 0.10.0", only: [:dev, :test], runtime: false},
       {:dialyxir, "~> 1.0.0-rc.6", only: :dev, runtime: false},
-      {:ex_doc, ">= 0.0.0", only: :dev, runtime: false},
+      {:ex_doc, ">= 0.0.0", only: [:dev, :docs], runtime: false},
       {:excoveralls, "~> 0.10.6", only: [:dev, :test], runtime: false},
+      {:inch_ex, "~> 2.0.0", only: :docs, runtime: false},
       {:licensir, "~> 0.4.0", only: :dev, runtime: false},
       {:mix_test_watch, "~> 0.8", only: :dev, runtime: false},
       {:opencensus, "~> 0.9.2"}
