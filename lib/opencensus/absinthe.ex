@@ -95,10 +95,5 @@ defmodule Opencensus.Absinthe do
   end
 
   @spec metaset(Type.Field.t(), atom()) :: boolean()
-  defp metaset(field, atom) do
-    case Type.meta(field, atom) do
-      true -> true
-      _ -> false
-    end
-  end
+  defp metaset(field, atom), do: Type.meta(field, atom) == true
 end

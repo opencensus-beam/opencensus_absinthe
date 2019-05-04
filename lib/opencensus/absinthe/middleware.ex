@@ -20,8 +20,8 @@ defmodule Opencensus.Absinthe.Middleware do
     }
 
     span_ctx = :oc_trace.start_span(field |> extract_name(), acc.span_ctx, span_options)
-    on_complete = {{__MODULE__, :on_complete}, span_ctx: span_ctx}
-    %{resolution | middleware: resolution.middleware ++ [on_complete]}
+    middleware = resolution.middleware ++ [{{__MODULE__, :on_complete}, span_ctx: span_ctx}]
+    %{resolution | middleware: middleware}
   end
 
   @doc false
