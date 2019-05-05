@@ -8,6 +8,7 @@ defmodule OpencensusAbsinthe.MixProject do
       app: :opencensus_absinthe,
       deps: deps(),
       description: @description,
+      dialyzer: dialyzer(),
       docs: docs(),
       elixir: "~> 1.8",
       package: package(),
@@ -47,6 +48,13 @@ defmodule OpencensusAbsinthe.MixProject do
       {:licensir, "~> 0.4.0", only: :dev, runtime: false},
       {:mix_test_watch, "~> 0.8", only: :dev, runtime: false},
       {:opencensus, "~> 0.9.2"}
+    ]
+  end
+
+  defp dialyzer() do
+    [
+      plt_add_deps: :apps_direct,
+      ignore_warnings: "dialyzer.ignore-warnings"
     ]
   end
 
