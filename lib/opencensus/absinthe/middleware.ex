@@ -45,7 +45,7 @@ defmodule Opencensus.Absinthe.Middleware do
       field_type: type,
       field_module: module |> delixir(),
       field_file: location.file,
-      field_line: location.line
+      field_line: to_string(location.line)
     ]
   end
 
