@@ -15,8 +15,7 @@ defmodule Opencensus.Absinthe.Middleware do
     acc = Acc.get(resolution)
 
     span_options = %{
-      attributes: field |> extract_metadata() |> Enum.into(%{}, &stringify_keys/1),
-      kind: "SERVER"
+      attributes: field |> extract_metadata() |> Enum.into(%{}, &stringify_keys/1)
     }
 
     span_ctx = :oc_trace.start_span(field |> extract_name(), acc.span_ctx, span_options)
