@@ -1,4 +1,4 @@
-defmodule OpencensusAbsinthe.MixProject do
+defmodule Opencensus.Absinthe.MixProject do
   use Mix.Project
 
   @description "Integration between OpenCensus and Absinthe"
