@@ -18,7 +18,7 @@ defmodule Opencensus.Absinthe.Middleware do
       attributes: field |> extract_metadata() |> Enum.into(%{}, &stringify_keys/1)
     }
 
-    span_ctx = :oc_trace.start_span(field |> extract_name(), acc.span_ctx, span_options)
+    span_ctx = :oc_trace.start_span(field |> repr(), acc.span_ctx, span_options)
     middleware = resolution.middleware ++ [{{__MODULE__, :on_complete}, span_ctx: span_ctx}]
     %{resolution | middleware: middleware}
   end
@@ -29,22 +29,16 @@ defmodule Opencensus.Absinthe.Middleware do
     resolution
   end
 
-  defp extract_name(%Type.Field{} = field) do
-    name = field.name
-    module = field.__reference__.module |> delixir()
-    "#{module}:#{name}"
-  end
-
   defp extract_metadata(%Type.Field{} = field) do
     %{name: name, type: type} = field
     %{module: module, location: location} = field.__reference__
 
     [
-      field_name: name,
-      field_type: type,
-      field_module: module |> delixir(),
-      field_file: location.file,
-      field_line: location.line
+      "absinthe.field.name": name,
+      "absinthe.field.type": type |> repr(),
+      "absinthe.field.module": module |> repr(),
+      "absinthe.field.file": location.file,
+      "absinthe.field.line": location.line
     ]
   end
 
@@ -53,7 +47,21 @@ defmodule Opencensus.Absinthe.Middleware do
   # https://hexdocs.pm/opencensus/opencensus.html#type-attributes
   defp stringify_keys({k, v}), do: {k |> to_string(), v}
 
-  # Remove Elixir. from the front of the module name.
-  defp delixir(a) when is_atom(a), do: a |> Atom.to_string() |> delixir()
-  defp delixir(s) when is_binary(s), do: s |> String.replace(~r/^Elixir\./, "")
+  @doc false
+  @spec repr(term()) :: String.t()
+  def repr(value)
+
+  def repr(%Type.Field{} = field) do
+    name = field.name
+    module = field.__reference__.module |> repr()
+    "#{module}:#{name}"
+  end
+
+  def repr(a) when is_nil(a), do: nil
+  def repr(%Type.List{of_type: t}), do: "#{t |> repr()}[]"
+  def repr(%Type.NonNull{of_type: t}), do: "#{t |> repr()}!"
+  def repr(%_{} = struct), do: struct |> Map.get(:__struct__) |> to_string()
+  def repr(a) when is_atom(a), do: a |> Atom.to_string() |> repr()
+  def repr(s) when is_binary(s), do: s |> String.replace(~r/^Elixir\./, "")
+  def repr(v), do: inspect(v)
 end
