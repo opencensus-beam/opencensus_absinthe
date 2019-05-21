@@ -27,6 +27,11 @@ defmodule Opencensus.Absinthe.MiddlewareTest do
       assert Middleware.repr(%Absinthe.Type.NonNull{of_type: :string}) == "string!"
     end
 
+    test "struct" do
+      assert Middleware.repr(%UnexpectedSpanishInquisition{}) ==
+               "Opencensus.Absinthe.MiddlewareTest.UnexpectedSpanishInquisition"
+    end
+
     test "Field" do
       field = %Absinthe.Type.Field{
         name: "hello",

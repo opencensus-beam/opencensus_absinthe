@@ -60,7 +60,7 @@ defmodule Opencensus.Absinthe.Middleware do
   def repr(a) when is_nil(a), do: nil
   def repr(%Type.List{of_type: t}), do: "#{t |> repr()}[]"
   def repr(%Type.NonNull{of_type: t}), do: "#{t |> repr()}!"
-  def repr(%_{} = struct), do: struct |> Map.get(:__struct__) |> to_string()
+  def repr(%struct{}), do: struct |> repr()
   def repr(a) when is_atom(a), do: a |> Atom.to_string() |> repr()
   def repr(s) when is_binary(s), do: s |> String.replace(~r/^Elixir\./, "")
   def repr(v), do: inspect(v)
