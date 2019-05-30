@@ -12,24 +12,19 @@ defmodule Opencensus.Absinthe.Plug do
     schema: MyApp.Schema,
     pipeline: {Opencensus.Absinthe.Plug, :traced_pipeline}
   ```
-
-  **WARNING:** `traced_pipeline/2` will be present _only_ if `Absinthe.Plug` is loaded.
-  Don't forget your `absinthe_plug` dependency in `mix.exs`!
   """
 
-  if Code.ensure_loaded?(Absinthe.Plug) do
-    @doc """
-    Return the default pipeline with tracing phases.
+  @doc """
+  Return the default pipeline with tracing phases.
 
-    See also:
+  See also:
 
-    * `Absinthe.Pipeline.for_document/2`.
-    * `Absinthe.Plug.default_pipeline/1`.
-    """
-    def traced_pipeline(config, pipeline_opts \\ []) do
-      config
-      |> Absinthe.Plug.default_pipeline(pipeline_opts)
-      |> Opencensus.Absinthe.add_phases()
-    end
+  * `Absinthe.Pipeline.for_document/2`.
+  * `Absinthe.Plug.default_pipeline/1`.
+  """
+  def traced_pipeline(config, pipeline_opts \\ []) do
+    config
+    |> Absinthe.Plug.default_pipeline(pipeline_opts)
+    |> Opencensus.Absinthe.add_phases()
   end
 end
