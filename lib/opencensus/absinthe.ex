@@ -41,6 +41,25 @@ defmodule Opencensus.Absinthe do
 
   Worst case, you'll need to copy the code from the current `pipeline` target and add a call to
   `Opencensus.Absinthe.add_phases/1` as above.
+
+  If you are using `DocumentResolver` modules, you will need to integrate into their
+  `pipeline/1` callback as well. If your `DocumentResolver` modules do not yet
+  override this callback, then this is fairly straightforward:
+
+  ```elixir
+  def pipeline(%{pipeline: as_configured}) do
+    as_configured
+    |> Absinthe.Pipeline.from(__absinthe_plug_doc__(:remaining_pipeline))
+    |> Opencensus.Absinthe.add_schema_phases()
+  end
+  ```
+
+  If you already override the `pipeline/1` callback, just append this to the end:
+
+  ```elixir
+  # ... result
+  |> Opencensus.Absinthe.add_schema_phases()
+  ```
   """
 
   alias Absinthe.Middleware
@@ -77,7 +96,7 @@ defmodule Opencensus.Absinthe do
     |> Opencensus.Absinthe.add_schema_phases()
   ```
   """
-  @spec add_phases(Absinthe.Pipeline.t()) :: Absinthe.Pipeline.t()
+  @spec add_schema_phases(Absinthe.Pipeline.t()) :: Absinthe.Pipeline.t()
   def add_schema_phases(pipeline) do
     pipeline
     |> Absinthe.Pipeline.insert_after(
