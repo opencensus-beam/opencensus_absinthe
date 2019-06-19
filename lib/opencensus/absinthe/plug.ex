@@ -28,8 +28,8 @@ defmodule Opencensus.Absinthe.Plug do
     """
     def traced_pipeline(config, pipeline_opts \\ []) do
       config
-      |> Absinthe.Plug.default_pipeline(pipeline_opts)
       |> Opencensus.Absinthe.add_phases()
+      |> Absinthe.Plug.default_pipeline(pipeline_opts)
     end
   end
 end
