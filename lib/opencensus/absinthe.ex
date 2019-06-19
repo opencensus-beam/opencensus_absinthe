@@ -69,6 +69,28 @@ defmodule Opencensus.Absinthe do
   end
 
   @doc """
+  Add tracing phases to an existing pipeline for schema.
+
+  ```elixir
+  pipeline =
+    Absinthe.Pipeline.for_document(schema, pipeline_opts)
+    |> Opencensus.Absinthe.add_phases()
+  ```
+  """
+  @spec add_phases(Absinthe.Pipeline.t()) :: Absinthe.Pipeline.t()
+  def add_schema_phases(pipeline) do
+    pipeline
+    |> Absinthe.Pipeline.insert_after(
+      Absinthe.Phase.Schema,
+      Opencensus.Absinthe.Phase.SchemaPush
+    )
+    |> Absinthe.Pipeline.insert_after(
+      Absinthe.Phase.Document.Result,
+      Opencensus.Absinthe.Phase.Pop
+    )
+  end
+
+  @doc """
   Add tracing middleware for field resolution.
 
   Specifically, prepends `Opencensus.Absinthe.Middleware` to the `middleware` chain if the field
