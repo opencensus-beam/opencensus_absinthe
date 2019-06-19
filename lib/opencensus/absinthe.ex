@@ -74,7 +74,7 @@ defmodule Opencensus.Absinthe do
   ```elixir
   pipeline =
     Absinthe.Pipeline.for_document(schema, pipeline_opts)
-    |> Opencensus.Absinthe.add_phases()
+    |> Opencensus.Absinthe.add_schema_phases()
   ```
   """
   @spec add_phases(Absinthe.Pipeline.t()) :: Absinthe.Pipeline.t()
