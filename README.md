@@ -34,7 +34,7 @@ Add a `:pipeline` to your `t:Absinthe.Plug.opts/0` to have it call
 `Opencensus.Absinthe.Plug.traced_pipeline/2`. If you're using
 `Phoenix.Router.forward/4`, for example:
 
-``` elixir
+```elixir
 forward(
   path,
   Absinthe.Plug,
@@ -104,6 +104,7 @@ Once you're on a telemetry-capable Absinthe, you'll get tracing for every
 Check your installation with `iex -S mix phx.server`, assuming Phoenix, and:
 
     iex> :oc_reporter.register(:oc_reporter_stdout)
+    :ok
 
 Fire off a few requests and check the `{span, <<NAME>` lines on standard
 output.
