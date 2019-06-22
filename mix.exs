@@ -16,10 +16,13 @@ defmodule Opencensus.Absinthe.MixProject do
         coveralls: :test,
         "coveralls.html": :test,
         "coveralls.json": :test,
+        credo: :test,
         docs: :docs,
         inch: :docs,
         "inch.report": :docs,
-        "inchci.add": :docs
+        "inchci.add": :docs,
+        licenses: :test,
+        "test.watch": :test
       ],
       start_permanent: Mix.env() == :prod,
       test_coverage: [tool: ExCoveralls],
@@ -47,15 +50,15 @@ defmodule Opencensus.Absinthe.MixProject do
 
   defp deps() do
     [
-      {:absinthe_plug, "~> 1.4.0", only: :dev, runtime: false},
       {:absinthe, "~> 1.4.0"},
-      {:credo, "~> 0.10.0", only: [:dev, :test], runtime: false},
+      {:absinthe_plug, "~> 1.4.0", optional: true},
+      {:credo, "~> 0.10.0", only: :test},
       {:dialyxir, "~> 1.0.0-rc.6", only: :dev, runtime: false},
-      {:ex_doc, ">= 0.0.0", only: [:dev, :docs], runtime: false},
-      {:excoveralls, "~> 0.10.6", only: [:dev, :test], runtime: false},
-      {:inch_ex, "~> 2.0.0", only: :docs, runtime: false},
-      {:licensir, "~> 0.4.0", only: :dev, runtime: false},
-      {:mix_test_watch, "~> 0.8", only: :dev, runtime: false},
+      {:ex_doc, ">= 0.0.0", only: :docs},
+      {:excoveralls, "~> 0.10.6", only: :test},
+      {:inch_ex, "~> 2.0.0", only: :docs},
+      {:licensir, "~> 0.4.0", only: :test},
+      {:mix_test_watch, "~> 0.8", only: :test},
       {:opencensus, "~> 0.9.2"}
     ]
   end
