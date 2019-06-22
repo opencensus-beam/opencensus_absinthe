@@ -11,6 +11,7 @@ defmodule Opencensus.Absinthe.MixProject do
       dialyzer: dialyzer(),
       docs: docs(),
       elixir: "~> 1.5",
+      elixirc_paths: elixirc_paths(Mix.env()),
       package: package(),
       preferred_cli_env: [
         coveralls: :test,
@@ -36,6 +37,9 @@ defmodule Opencensus.Absinthe.MixProject do
     ]
   end
 
+  defp elixirc_paths(:test), do: ["lib", "test/support"]
+  defp elixirc_paths(_), do: ["lib"]
+
   defp package() do
     [
       licenses: ["Apache 2.0"],
@@ -54,13 +58,15 @@ defmodule Opencensus.Absinthe.MixProject do
       {:absinthe_plug, "~> 1.4.0", optional: true},
       {:credo, "~> 1.1.0", only: :test},
       {:dialyxir, "~> 1.0.0-rc.6", only: :dev, runtime: false},
-      {:ex_doc, ">= 0.0.0", only: :docs},
+      {:ex_doc, ">= 0.0.0", only: [:docs, :test]},
       {:excoveralls, "~> 0.11.1", only: :test},
       {:inch_ex, "~> 2.0.0", only: :docs},
+      {:jason, "~> 1.0", only: [:docs, :test]},
       {:licensir, "~> 0.4.0", only: :test},
       {:mix_test_watch, "~> 0.8", only: :test},
       {:opencensus, "~> 0.9.2"},
-      {:opencensus_elixir, "~> 0.4.0"}
+      {:opencensus_plug, "~> 0.3", only: :test},
+      {:telemetry, "~> 0.4", only: :test}
     ]
   end
 
