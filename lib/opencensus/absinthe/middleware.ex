@@ -12,15 +12,20 @@ defmodule Opencensus.Absinthe.Middleware do
   @impl true
   @spec call(Resolution.t(), term()) :: Resolution.t()
   def call(%Resolution{state: :unresolved} = resolution, field: field) do
-    acc = Acc.get(resolution)
+    case Acc.get(resolution) do
+      # nil ->
+      #   Logger.error("Handling tracing for a field with no span metadata: #{inspect(field, pretty: true)}")
+      #   resolution
 
-    span_options = %{
-      attributes: field |> extract_metadata() |> Enum.into(%{}, &stringify_keys/1)
-    }
+      acc ->
+        span_options = %{
+          attributes: field |> extract_metadata() |> Enum.into(%{}, &stringify_keys/1)
+        }
 
-    span_ctx = :oc_trace.start_span(field |> repr(), acc.span_ctx, span_options)
-    middleware = resolution.middleware ++ [{{__MODULE__, :on_complete}, span_ctx: span_ctx}]
-    %{resolution | middleware: middleware}
+        span_ctx = :oc_trace.start_span(field |> repr(), acc.span_ctx, span_options)
+        middleware = resolution.middleware ++ [{{__MODULE__, :on_complete}, span_ctx: span_ctx}]
+        %{resolution | middleware: middleware}
+    end
   end
 
   @doc false

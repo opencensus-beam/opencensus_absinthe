@@ -3,6 +3,7 @@ defmodule Opencensus.Absinthe.Acc do
 
   alias Absinthe.Blueprint
   alias Absinthe.Resolution
+  alias Absinthe.Blueprint.Execution
 
   @accumulator_key :opencensus_absinthe
 
@@ -16,12 +17,17 @@ defmodule Opencensus.Absinthe.Acc do
 
   @spec set(Blueprint.t(), any()) :: map()
   def set(%Blueprint{} = bp, our_acc) do
-    acc = bp.execution.acc |> Map.put(@accumulator_key, our_acc)
-    put_in(bp.execution.acc, acc)
+    put_in(bp.execution.acc, Map.put(bp.execution.acc, @accumulator_key, our_acc))
+  end
+
+  @spec set(Execution.t(), any()) :: map()
+  def set(%Execution{} = exec, our_acc), do
+    put_in(exec.acc, Map.put(exec.acc, @accumulator_key, our_acc))
   end
 
   @spec get(Blueprint.t() | Resolution.t()) :: t()
   def get(blueprint_or_resolution)
   def get(%Blueprint{} = bp), do: bp.execution.acc[@accumulator_key]
   def get(%Resolution{} = r), do: r.acc[@accumulator_key]
+  def get(%Execution{} = exec), do: exec.acc[@accumulator_key]
 end
