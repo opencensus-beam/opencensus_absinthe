@@ -9,8 +9,9 @@ defmodule Opencensus.Absinthe.Phase.Push do
 
   @impl true
   @spec run(Blueprint.t(), keyword()) :: Phase.result_t()
-  def run(blueprint, _opts \\ []) do
-    parent_span_ctx = :ocp.with_child_span("Blueprint")
+  def run(blueprint, opts \\ []) do
+    child_span = Keyword.get(opts, :child_span, "Blueprint")
+    parent_span_ctx = :ocp.with_child_span(child_span)
     span_ctx = :ocp.current_span_ctx()
 
     acc = %Acc{
