@@ -14,7 +14,7 @@ defmodule Opencensus.Absinthe.Middleware do
   def call(%Resolution{state: :unresolved} = resolution, field: field) do
     case Acc.get(resolution) do
       # nil ->
-      #   Logger.error("Handling an untraceable field: #{inspect(field, pretty: true)}")
+      #   Logger.error("Handling a field resolution with no span metadata: #{inspect(field, pretty: true)}")
       #   resolution
 
       acc ->
