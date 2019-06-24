@@ -48,7 +48,7 @@ defmodule Opencensus.Absinthe do
   docs][internal_dataloader] for details.
 
   [dataloader]: https://github.com/absinthe-graphql/dataloader
-  [internal_dataloader]: ???
+  [internal_dataloader]: https://hexdocs.pm/opencensus_absinthe/Opencensus.Absinthe.Middleware.Dataloader.html
   """
 
   alias Absinthe.Middleware
