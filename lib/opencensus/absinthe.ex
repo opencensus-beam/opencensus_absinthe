@@ -42,9 +42,9 @@ defmodule Opencensus.Absinthe do
   Worst case, you'll need to copy the code from the current `pipeline` target and add a call to
   `Opencensus.Absinthe.add_phases/1` as above.
 
-  If you are using `DocumentResolver` modules, you will need to integrate into their
-  `pipeline/1` callback as well. If your `DocumentResolver` modules do not yet
-  override this callback, then this is fairly straightforward:
+  If you are using `DocumentProvider` modules, you will need to integrate into
+  their `pipeline/1` callback as well. If your `DocumentProvider` modules do not
+  yet override this callback, then this is fairly straightforward:
 
   ```elixir
   def pipeline(%{pipeline: as_configured}) do
