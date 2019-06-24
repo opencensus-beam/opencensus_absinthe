@@ -22,6 +22,9 @@ if Code.ensure_loaded?(Dataloader) do
     alias Opencensus.Absinthe.Acc
     alias Absinthe.Middleware.Dataloader, as: DefaultDataloader
 
+    @doc """
+    The `Absinthe.Plugin` callback. Starts the OpenCensus span.
+    """
     def before_resolution(exec) do
       span_options = %{attributes: %{}}
       acc = Acc.get(exec)
@@ -32,6 +35,9 @@ if Code.ensure_loaded?(Dataloader) do
       |> DefaultDataloader.before_resolution()
     end
 
+    @doc """
+    The `Absinthe.Plugin` callback. Finishes the OpenCensus span.
+    """
     def after_resolution(exec) do
       exec
       |> Acc.get()

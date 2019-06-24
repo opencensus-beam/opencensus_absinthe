@@ -21,7 +21,7 @@ defmodule Opencensus.Absinthe.Acc do
   end
 
   @spec set(Execution.t(), any()) :: map()
-  def set(%Execution{} = exec, our_acc), do
+  def set(%Execution{} = exec, our_acc) do
     put_in(exec.acc, Map.put(exec.acc, @accumulator_key, our_acc))
   end
 

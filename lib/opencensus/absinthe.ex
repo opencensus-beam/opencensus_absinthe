@@ -41,6 +41,14 @@ defmodule Opencensus.Absinthe do
 
   Worst case, you'll need to copy the code from the current `pipeline` target and add a call to
   `Opencensus.Absinthe.add_phases/1` as above.
+
+  If you're using [`Dataloader`][dataloader], you will want to use the provided
+  `Opencensus.Absinthe.Middleware.Dataloader` Absinthe plugin module in place of
+  the default one for tracing batched resolutions. See the [module
+  docs][internal_dataloader] for details.
+
+  [dataloader]: https://github.com/absinthe-graphql/dataloader
+  [internal_dataloader]: ???
   """
 
   alias Absinthe.Middleware

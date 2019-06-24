@@ -47,9 +47,10 @@ defmodule Opencensus.Absinthe.MixProject do
 
   defp deps() do
     [
-      {:absinthe_plug, "~> 1.4.0", only: :dev, runtime: false},
+      {:absinthe_plug, "~> 1.4.0", only: [:dev, :docs], runtime: false},
       {:absinthe, "~> 1.4.0"},
       {:credo, "~> 0.10.0", only: [:dev, :test], runtime: false},
+      {:dataloader, "~> 1.0.0", optional: true},
       {:dialyxir, "~> 1.0.0-rc.6", only: :dev, runtime: false},
       {:ex_doc, ">= 0.0.0", only: [:dev, :docs], runtime: false},
       {:excoveralls, "~> 0.10.6", only: [:dev, :test], runtime: false},
