@@ -18,6 +18,7 @@ if Code.ensure_loaded?(Dataloader) do
     @behaviour Absinthe.Plugin
 
     @span_key :dataloader_resolution_span_ctx
+    @counter_key :dataloader_resolution_counter
 
     alias Opencensus.Absinthe.Acc
     alias Absinthe.Middleware.Dataloader, as: DefaultDataloader
@@ -28,10 +29,20 @@ if Code.ensure_loaded?(Dataloader) do
     def before_resolution(exec) do
       span_options = %{attributes: %{}}
       acc = Acc.get(exec)
-      span_ctx = :oc_trace.start_span("resolution", acc.span_ctx, span_options)
+
+      {counter, new_acc} =
+        Map.get_and_update(acc, @counter_key, fn cur ->
+          case cur do
+            nil -> {cur, 1}
+            x -> {x, x + 1}
+          end
+        end)
+
+      span_ctx = :oc_trace.start_span("resolution_#{counter || 0}", acc.span_ctx, span_options)
+      new_acc = Map.put(new_acc, @span_key, span_ctx)
 
       exec
-      |> Acc.set(Map.put(acc, @span_key, span_ctx))
+      |> Acc.set(new_acc)
       |> DefaultDataloader.before_resolution()
     end
 
@@ -39,12 +50,21 @@ if Code.ensure_loaded?(Dataloader) do
     The `Absinthe.Plugin` callback. Finishes the OpenCensus span.
     """
     def after_resolution(exec) do
-      exec
-      |> Acc.get()
+      acc = Acc.get(exec)
+
+      acc
       |> Map.get(@span_key)
+      |> IO.inspect(label: "dataloader:finish_resolution")
       |> :oc_trace.finish_span()
 
-      DefaultDataloader.after_resolution(exec)
+      acc =
+        exec
+        |> Acc.get()
+        |> Map.delete(@span_key)
+
+      exec
+      |> Acc.set(acc)
+      |> DefaultDataloader.after_resolution()
     end
 
     def call(resolution, callback), do: DefaultDataloader.call(resolution, callback)
