@@ -52,10 +52,10 @@ defmodule Opencensus.Absinthe.MixProject do
     [
       {:absinthe, "~> 1.4.0"},
       {:absinthe_plug, "~> 1.4.0", optional: true},
-      {:credo, "~> 0.10.0", only: :test},
+      {:credo, "~> 1.1.0", only: :test},
       {:dialyxir, "~> 1.0.0-rc.6", only: :dev, runtime: false},
       {:ex_doc, ">= 0.0.0", only: :docs},
-      {:excoveralls, "~> 0.10.6", only: :test},
+      {:excoveralls, "~> 0.11.1", only: :test},
       {:inch_ex, "~> 2.0.0", only: :docs},
       {:licensir, "~> 0.4.0", only: :test},
       {:mix_test_watch, "~> 0.8", only: :test},
