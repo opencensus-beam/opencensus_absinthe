@@ -54,7 +54,6 @@ if Code.ensure_loaded?(Dataloader) do
 
       acc
       |> Map.get(@span_key)
-      |> IO.inspect(label: "dataloader:finish_resolution")
       |> :oc_trace.finish_span()
 
       acc =
