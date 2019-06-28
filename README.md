@@ -58,6 +58,25 @@ end
 Worst case, you'll need to copy the code from the current `pipeline` target
 and add a call to `Opencensus.Absinthe.add_phases/1` as above.
 
+If you are using `DocumentProvider` modules, you will need to integrate into
+their `pipeline/1` callback as well. If your `DocumentProvider` modules do not
+yet override this callback, then this is fairly straightforward:
+
+```elixir
+def pipeline(%{pipeline: as_configured}) do
+  as_configured
+  |> Absinthe.Pipeline.from(__absinthe_plug_doc__(:remaining_pipeline))
+  |> Opencensus.Absinthe.add_schema_phases()
+end
+```
+
+If you already override the `pipeline/1` callback, just append this to the end:
+
+```elixir
+# ... result
+|> Opencensus.Absinthe.add_schema_phases()
+```
+
 ### Middleware
 
 Your [middleware callback][c:middleware/3] needs to run its output through
@@ -81,6 +100,14 @@ end
 ```
 
 [c:middleware/3]: https://hexdocs.pm/absinthe/Absinthe.Schema.html#c:middleware/3
+
+If you're using [`Dataloader`][dataloader], you will want to use the provided
+`Opencensus.Absinthe.Middleware.Dataloader` Absinthe plugin module in place of
+the default one for tracing batched resolutions. See the [module
+docs][internal_dataloader] for details.
+
+[dataloader]: https://github.com/absinthe-graphql/dataloader
+[internal_dataloader]: https://hexdocs.pm/opencensus_absinthe/Opencensus.Absinthe.Middleware.Dataloader.html
 
 ### Schema
 
