@@ -90,8 +90,11 @@ workflows:
   testing:
     jobs:
       - test:
+          name: "Elixir 1.9"
+          elixir_version: "1.9"
+      - test:
           name: "Elixir 1.8"
-          elixir_version: "1.7"
+          elixir_version: "1.8"
       - test:
           name: "Elixir 1.7"
           elixir_version: "1.7"
