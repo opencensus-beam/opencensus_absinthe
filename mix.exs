@@ -59,7 +59,8 @@ defmodule Opencensus.Absinthe.MixProject do
       {:inch_ex, "~> 2.0.0", only: :docs},
       {:licensir, "~> 0.4.0", only: :test},
       {:mix_test_watch, "~> 0.8", only: :test},
-      {:opencensus, "~> 0.9.2"}
+      {:opencensus, "~> 0.9.2"},
+      {:opencensus_elixir, "~> 0.4.0"}
     ]
   end
 

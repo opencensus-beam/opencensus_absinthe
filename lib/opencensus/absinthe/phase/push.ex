@@ -18,7 +18,7 @@ defmodule Opencensus.Absinthe.Phase.Push do
       span_ctx: span_ctx
     }
 
-    Opencensus.Absinthe.Logger.set_logger_metadata(span_ctx)
+    Opencensus.Logger.set_logger_metadata(span_ctx)
     {:ok, blueprint |> Acc.set(acc)}
   end
 end
