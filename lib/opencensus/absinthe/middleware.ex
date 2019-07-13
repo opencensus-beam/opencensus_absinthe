@@ -24,7 +24,20 @@ defmodule Opencensus.Absinthe.Middleware do
   end
 
   @doc false
+  @spec on_complete(Resolution.t(), span_ctx: :opencensus.span_ctx()) :: Resolution.t()
   def on_complete(%{state: :resolved} = resolution, span_ctx: span_ctx) do
+    # credo:disable-for-next-line
+    error_count = length(resolution.errors)
+    status = if error_count == 0, do: "ok", else: "error"
+
+    :oc_trace.put_attributes(
+      %{
+        "absinthe.field.resolution_error_count" => error_count,
+        "absinthe.field.resolution_status" => status
+      },
+      span_ctx
+    )
+
     :oc_trace.finish_span(span_ctx)
     resolution
   end
