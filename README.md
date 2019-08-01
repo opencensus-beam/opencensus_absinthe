@@ -101,7 +101,7 @@ end
 
 [c:middleware/3]: https://hexdocs.pm/absinthe/Absinthe.Schema.html#c:middleware/3
 
-If you're using [`Dataloader`][dataloader], you will want to use the provided
+If you're using [`Dataloader`][dataloader], you should use the provided
 `Opencensus.Absinthe.Middleware.Dataloader` Absinthe plugin module in place of
 the default one for tracing batched resolutions. See the [module
 docs][internal_dataloader] for details.
